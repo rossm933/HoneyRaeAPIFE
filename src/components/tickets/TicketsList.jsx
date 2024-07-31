@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Table } from "reactstrap";
-import { getServiceTickets, deleteServiceTicket } from "../../data/serviceTicketsData";
+import { getServiceTickets, deleteServiceTicket, completeServiceTicket } from "../../data/serviceTicketsData";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 
@@ -18,7 +18,11 @@ export default function TicketsList() {
     });
   }
   };
-
+  const completeThisTicket = (id) => {
+    if (window.confirm("Complete this ticket?")) {
+    completeServiceTicket(id)
+    }
+  };
   return (
     <Table>
       <thead>
@@ -44,6 +48,9 @@ export default function TicketsList() {
             <Button variant="danger" style={{ background: '#8b0000', border: 'solid 1px black' }} onClick={() => deleteThisTicket(t.id)} className="m-2">
             DELETE
           </Button>
+          {t.dateCompleted ? '' :  <Button  style={{ background: 'green', border: 'solid 1px black' }} onClick={() => completeThisTicket(t.id)} className="m-2">
+            COMPLETE
+          </Button>}
             </td>
           </tr>
         ))}
